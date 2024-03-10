@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }}</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        /* Navbar */
+        .navbar {
+            background-color: #fff; /* White */
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .navbar-brand, .navbar-nav .nav-link {
+            color: #333; /* Dark Gray */
+        }
+
+        .navbar-brand:hover, .navbar-nav .nav-link:hover {
+            color:rgb(241, 116, 13); /* Orange */
+        }
+
+        /* Banner Section */
+        .banner {
+            background-color: rgb(241, 116, 13);
+            background-size: cover;
+            background-position: center;
+            color: #fff; /* White */
+            padding: 100px 0;
+            text-align: center;
+        }
+
+        .btn-banner {
+            background-color: #FFA500; /* Orange */
+            color: #fff; /* White */
+            border: none;
+            padding: 10px 20px;
+            font-size: 1.2rem;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+
+        /* Services Section */
+        #services {
+            background-color: #f8f9fa; /* Light gray */
+            padding: 100px 0;
+        }
+
+        .card {
+            border: none;
+        }
+
+        /* Mission Section */
+        #mission {
+            background-color: #FFA500; /* Orange */
+            color: #fff; /* White */
+            padding: 100px 0;
+        }
+
+        /* About Us Section */
+        #about {
+            background-color: #fff; /* White */
+            padding: 100px 0;
+        }
+
+        /* Contact Us Section */
+        #contact {
+            background-color: #f8f9fa; /* Light gray */
+            padding: 100px 0;
+        }
+
+        /* Contact Form */
+        .contact-form {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Footer Section */
+        footer {
+            background-color: #333; /* Dark gray */
+            color: #fff; /* White */
+            padding: 20px 0;
+            text-align: center;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 576px) {
+            .banner {
+                padding: 80px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-light">
+    <div class="container">
+        <a class="navbar-brand" href="#">Camila's Site</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="#home">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#about">About Us</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#services">Services</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#contact">Contact Us</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- Banner Section -->
+<section id="home" class="banner">
+    <div class="container">
+        <h1>Welcome to Camila's Site</h1>
+        <p class="lead">Learn Spanish with a native teacher</p>
+        <a href="#services" class="btn btn-banner">Our Offerings</a>
+    </div>
+</section>
+
+<!-- Services Section -->
+<section id="services">
+    <div class="container">
+        <h2 class="text-center mb-5">Our Offerings</h2>
+        <div class="row">
+            {% for service in services %}
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <img src="{{ service.image.url }}" class="card-img-top" alt="{{ service.title }}">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ service.title }}</h5>
+                        <p class="card-text">{{ service.description }}</p>
+                        <a href="#" class="btn btn-primary">Learn More</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Mission Section -->
+<section id="mission">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <img src="/media/banner.png" class="img-fluid" alt="Mission Image" style="width: 300px;height: 150px;">
+            </div>
+            <div class="col-md-6">
+                <h2>Our Mission</h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vel orci nec odio dignissim fringilla.</p>
+                <!-- Add more mission details here if needed -->
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- About Us Section -->
+<section id="about">
+    <div class="container">
+        <h2 class="text-center mb-5">About Us</h2>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vel orci nec odio dignissim fringilla.</p>
+        <!-- Add more about us details here if needed -->
+    </div>
+</section>
+
+<!-- Contact Us Section -->
+<section id="contact">
+    <div class="container">
+        <h2 class="text-center mb-5">Contact Us</h2>
+        <div class="row">
+            <div class="col-md-6">
+                <form action="{% url 'save_contact' %}" method="post">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="name">Name:</label>
+                        <input type="text" class="form-control" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email:</label>
+                        <input type="email" class="form-control" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Message:</label>
+                        <textarea class="form-control" id="message" name="message" rows="5" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+            <div class="col-md-6">
+                <p>Feel free to get in touch with us for any questions or inquiries. We'll get back to you as soon as possible.</p>
+                <p>Email: example@example.com</p>
+                <p>Phone: +1234567890</p>
+                <p>Address: 123 Main Street, City, Country</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Footer Section -->
+<footer>
+    <div class="container text-center">
+        <p>&copy; 2024 Camila's Site. All rights reserved.</p>
+    </div>
+</footer>
+
+<!-- Bootstrap JS, jQuery, and other scripts -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<!-- Add your custom scripts here -->
+
+</body>
+</html>
