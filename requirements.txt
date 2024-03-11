@@ -82,7 +82,7 @@ docopt==0.6.2
 documents==0.0.1
 docutils==0.15.2
 drf-yasg==1.21.7
-duplicity==0.8.21
+duplicity>=0.8,<1.0
 dynaconf==3.1.7
 et-xmlfile==1.1.0
 Faker==19.2.0
