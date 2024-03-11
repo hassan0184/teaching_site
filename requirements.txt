@@ -28,7 +28,7 @@ click-didyoumean==0.3.0
 click-plugins==1.1.1
 click-repl==0.2.0
 colorama==0.4.4
-command-not-found==0.3
+# command-not-found==0.3
 ConfigArgParse==1.4
 configobj==5.0.6
 constantly==15.1.0
