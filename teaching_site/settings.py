@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-vc#et&l_jsc^$ezjl1bf=!yn=keo=zq_nx=e$f=nye5ual*0-x
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 STATICFILES_DIRS = os.path.join(BASE_DIR, 'static'),
@@ -82,7 +82,6 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-ALLOWED_HOSTS = ['127.0.0.1', '.vercel.app']
 
 
 
