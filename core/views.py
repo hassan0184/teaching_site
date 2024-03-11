@@ -7,6 +7,7 @@ from django.urls import reverse_lazy
 from django.contrib import messages
 from django.http import JsonResponse
 from django.urls import reverse
+from .forms import BookingForm
 
 class HomePageView(TemplateView):
     template_name = 'index.html'
@@ -26,3 +27,15 @@ def save_contact(request):
     else:
         form = ContactForm()
     return render(request, 'contact.html', {'form': form})
+
+
+def save_booking(request):
+    if request.method == 'POST':
+        form = BookingForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return JsonResponse({'message': 'Booking successful!'})
+        else:
+            return JsonResponse({'errors': form.errors}, status=400)
+    else:
+        return JsonResponse({'message': 'Invalid request method'}, status=405)

@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ title }}</title>
@@ -52,7 +54,7 @@
 
         /* Mission Section */
         #mission {
-            background-color: #FFA500; /* Orange */
+            background-color: rgb(241, 116, 13); /* Orange */
             color: #fff; /* White */
             padding: 100px 0;
         }
@@ -129,6 +131,7 @@
 </section>
 
 <!-- Services Section -->
+{% block content %}
 <section id="services">
     <div class="container">
         <h2 class="text-center mb-5">Our Offerings</h2>
@@ -140,7 +143,7 @@
                     <div class="card-body">
                         <h5 class="card-title">{{ service.title }}</h5>
                         <p class="card-text">{{ service.description }}</p>
-                        <a href="#" class="btn btn-primary">Learn More</a>
+                        <!-- <button class="btn btn-outline-info book-now-btn" data-service-id="{{ service.id }}">Book Now</button> -->
                     </div>
                 </div>
             </div>
@@ -158,23 +161,19 @@
             </div>
             <div class="col-md-6">
                 <h2>Our Mission</h2>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vel orci nec odio dignissim fringilla.</p>
-                <!-- Add more mission details here if needed -->
+                <p>Teach Spanish at any level with a dynamic and interactive immersion methodology. You will learn to acquire the language in less time and effectively.</p>
             </div>
         </div>
     </div>
 </section>
 
-<!-- About Us Section -->
 <section id="about">
     <div class="container">
         <h2 class="text-center mb-5">About Us</h2>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vel orci nec odio dignissim fringilla.</p>
-        <!-- Add more about us details here if needed -->
+        <p>At Learn Spanish with Camila, we're dedicated to making Spanish learning accessible and enjoyable for everyone. Our platform offers a diverse range of courses designed to suit various proficiency levels and learning styles. Led by a team of experienced language instructors, we provide comprehensive lessons, interactive activities, and real-world practice to help you master Spanish effectively. We believe in fostering a supportive learning environment where students can connect, collaborate, and grow together. Whether you're a complete beginner or looking to refine your skills, our personalized approach ensures that you receive the guidance and support you need to succeed. Join our community today and take the first step towards fluency with Learn Spanish with Camila.</p>
     </div>
 </section>
 
-<!-- Contact Us Section -->
 <section id="contact">
     <div class="container">
         <h2 class="text-center mb-5">Contact Us</h2>
@@ -194,32 +193,123 @@
                         <label for="message">Message:</label>
                         <textarea class="form-control" id="message" name="message" rows="5" required></textarea>
                     </div>
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="submit" class="btn btn-outline-primary">Submit</button>
                 </form>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-6 mt-5 p-5">
                 <p>Feel free to get in touch with us for any questions or inquiries. We'll get back to you as soon as possible.</p>
-                <p>Email: example@example.com</p>
-                <p>Phone: +1234567890</p>
-                <p>Address: 123 Main Street, City, Country</p>
+                <p>Email: <span style="color: rgb(51, 51, 209);">es.camilasite@gmail.com</span></p>
+                <p>Phone: <span style="color: rgb(51, 51, 209);">57 314 3375405</span></p>
             </div>
         </div>
     </div>
 </section>
 
-<!-- Footer Section -->
 <footer>
     <div class="container text-center">
         <p>&copy; 2024 Camila's Site. All rights reserved.</p>
     </div>
 </footer>
 
-<!-- Bootstrap JS, jQuery, and other scripts -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+    // Function to handle form submission
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelector('form').onsubmit = function (event) {
+            event.preventDefault(); // Prevent default form submission
+            const form = event.target; // Get the form element
+            const formData = new FormData(form); // Create FormData object
+            
+            // Send form data to server using Fetch API
+            fetch(form.action, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}' // Include CSRF token
+                }
+            })
+            .then(response => response.json()) // Parse JSON response
+            .then(data => {
+                // Show SweetAlert message
+                swal({
+                    title: "Success!",
+                    text: data.message,
+                    icon: "success",
+                    button: "OK",
+                })
+                .then(() => {
+                    // Reset form fields
+                    form.reset();
+                });
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                // Show error message using SweetAlert
+                swal({
+                    title: "Error!",
+                    text: "An error occurred. Please try again later.",
+                    icon: "error",
+                    button: "OK",
+                });
+            });
+        };
+    });
+</script>
 
-<!-- Add your custom scripts here -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const bookNowButtons = document.querySelectorAll('.book-now-btn');
+        bookNowButtons.forEach(button => {
+            button.addEventListener('click', function (event) {
+                event.preventDefault(); // Prevent default link behavior
+                const serviceId = this.dataset.serviceId;
+                showBookingForm(serviceId);
+            });
+        });
+    });
+
+    function showBookingForm(serviceId) {
+        swal({
+            title: "Book Now",
+            content: {
+                element: "form",
+                attributes: {
+                    id: "booking-form",
+                    method: "post",
+                    action: "{% url 'save_booking' %}"
+                },
+                element: "div",
+                attributes: {
+                    id: "booking-form-fields"
+                }
+            },
+            buttons: {
+                cancel: true,
+                confirm: {
+                    text: "Submit",
+                    closeModal: false
+                }
+            }
+        });
+
+        // Add fields for booking details inside the SweetAlert form
+        const bookingFormFields = document.getElementById('booking-form-fields');
+        bookingFormFields.innerHTML = `
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required>
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+            <input type="hidden" id="service_id" name="service_id" value="${serviceId}">
+            <label for="date">Date:</label>
+            <input type="date" id="date" name="date" required>
+            <label for="time">Time:</label>
+            <input type="time" id="time" name="time" required>
+        `;
+    }
+</script>
+{% endblock %}
 
 </body>
 </html>
