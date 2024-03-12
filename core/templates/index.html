@@ -116,9 +116,15 @@
                 <li class="nav-item">
                     <a class="nav-link" href="#contact">Contact Us</a>
                 </li>
+                <!-- New List Item for Test Button -->
+                <li class="nav-item">
+                    <a class="nav-link" style="color: black;font-weight: bolder;" href="https://www.esl-idiomas.com/es/test-online/test-espanol">Book Test</a>
+                </li>
+                <!-- End of New List Item for Test Button -->
             </ul>
         </div>
-    </div>
+        </div>
+        
 </nav>
 
 <!-- Banner Section -->
@@ -138,11 +144,14 @@
         <div class="row">
             {% for service in services %}
             <div class="col-md-4 mb-4">
-                <div class="card">
+                <div class="card" >
                     <img src="{{ service.image.url }}" class="card-img-top" alt="{{ service.title }}">
                     <div class="card-body">
                         <h5 class="card-title">{{ service.title }}</h5>
                         <p class="card-text">{{ service.description }}</p>
+                        <p class="card-text" style="color: black;font-weight: bolder;">Price: {{ service.price }}</p>
+                        <p class="card-text" style="color: black;font-weight: bolder;">Duration: {{ service.duration }}</p>
+                        <!-- If you want to add a button, uncomment the following lines -->
                         <!-- <button class="btn btn-outline-info book-now-btn" data-service-id="{{ service.id }}">Book Now</button> -->
                     </div>
                 </div>
@@ -150,6 +159,7 @@
             {% endfor %}
         </div>
     </div>
+    
 </section>
 
 <!-- Mission Section -->
@@ -157,7 +167,8 @@
     <div class="container">
         <div class="row">
             <div class="col-md-6">
-                <img src="/media/banner.png" class="img-fluid" alt="Mission Image" style="width: 300px;height: 150px;">
+                <h4 style="font-weight: bolder;">Camila's</h4>
+                <!-- <img src="/media/banner.png" class="img-fluid" alt="Mission Image" style="width: 300px;height: 150px;"> -->
             </div>
             <div class="col-md-6">
                 <h2>Our Mission</h2>
@@ -207,7 +218,7 @@
 
 <footer>
     <div class="container text-center">
-        <p>&copy; 2024 Camila's Site. All rights reserved.</p>
+        <p>&copy; 2024 Camila's Site. All rights reserved.</p>  
     </div>
 </footer>
 
@@ -280,9 +291,12 @@
                     method: "post",
                     action: "{% url 'save_booking' %}"
                 },
-                element: "div",
+                element: "input",
                 attributes: {
-                    id: "booking-form-fields"
+                    id: "service_id",
+                    name: "service_id",
+                    type: "hidden",
+                    value: serviceId
                 }
             },
             buttons: {
@@ -291,24 +305,16 @@
                     text: "Submit",
                     closeModal: false
                 }
+            },
+            closeOnClickOutside: false // Prevent closing on outside click
+        }).then((value) => {
+            if (value) {
+                document.getElementById('booking-form').submit();
             }
         });
-
-        // Add fields for booking details inside the SweetAlert form
-        const bookingFormFields = document.getElementById('booking-form-fields');
-        bookingFormFields.innerHTML = `
-            <label for="name">Name:</label>
-            <input type="text" id="name" name="name" required>
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required>
-            <input type="hidden" id="service_id" name="service_id" value="${serviceId}">
-            <label for="date">Date:</label>
-            <input type="date" id="date" name="date" required>
-            <label for="time">Time:</label>
-            <input type="time" id="time" name="time" required>
-        `;
     }
 </script>
+
 {% endblock %}
 
 </body>
