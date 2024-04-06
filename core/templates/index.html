@@ -1,13 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ title }}</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
+        /* Common Styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa; /* Light gray */
+            color: #333; /* Dark Gray */
+        }
+
         /* Navbar */
         .navbar {
             background-color: #fff; /* White */
@@ -32,7 +37,7 @@
             text-align: center;
         }
 
-        .btn-banner {
+        .btn-banner, .book-now-btn {
             background-color: #FFA500; /* Orange */
             color: #fff; /* White */
             border: none;
@@ -40,16 +45,6 @@
             font-size: 1.2rem;
             border-radius: 5px;
             text-decoration: none;
-        }
-
-        /* Services Section */
-        #services {
-            background-color: #f8f9fa; /* Light gray */
-            padding: 100px 0;
-        }
-
-        .card {
-            border: none;
         }
 
         /* Mission Section */
@@ -71,12 +66,6 @@
             padding: 100px 0;
         }
 
-        /* Contact Form */
-        .contact-form {
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
         /* Footer Section */
         footer {
             background-color: #333; /* Dark gray */
@@ -85,155 +74,271 @@
             text-align: center;
         }
 
-        /* Responsive Styles */
-        @media (max-width: 576px) {
-            .banner {
-                padding: 80px 0;
+        /* Loader Styles */
+        #loader {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 9999;
+        }
+
+        .lds-spinner {
+            color: official;
+            display: inline-block;
+            position: relative;
+            width: 64px;
+            height: 64px;
+        }
+
+        .lds-spinner div {
+            transform-origin: 32px 32px;
+            animation: lds-spinner 1.2s linear infinite;
+        }
+
+        .lds-spinner div:after {
+            content: " ";
+            display: block;
+            position: absolute;
+            top: 3px;
+            left: 29px;
+            width: 5px;
+            height: 14px;
+            border-radius: 20%;
+            background: #333;
+        }
+
+        .lds-spinner div:nth-child(1) {
+            transform: rotate(0deg);
+            animation-delay: -1.1s;
+        }
+
+        .lds-spinner div:nth-child(2) {
+            transform: rotate(30deg);
+            animation-delay: -1s;
+        }
+
+        .lds-spinner div:nth-child(3) {
+            transform: rotate(60deg);
+            animation-delay: -0.9s;
+        }
+
+        .lds-spinner div:nth-child(4) {
+            transform: rotate(90deg);
+            animation-delay: -0.8s;
+        }
+
+        .lds-spinner div:nth-child(5) {
+            transform: rotate(120deg);
+            animation-delay: -0.7s;
+        }
+
+        .lds-spinner div:nth-child(6) {
+            transform: rotate(150deg);
+            animation-delay: -0.6s;
+        }
+
+        .lds-spinner div:nth-child(7) {
+            transform: rotate(180deg);
+            animation-delay: -0.5s;
+        }
+
+        .lds-spinner div:nth-child(8) {
+            transform: rotate(210deg);
+            animation-delay: -0.4s;
+        }
+
+        .lds-spinner div:nth-child(9) {
+            transform: rotate(240deg);
+            animation-delay: -0.3s;
+        }
+
+        .lds-spinner div:nth-child(10) {
+            transform: rotate(270deg);
+            animation-delay: -0.2s;
+        }
+
+        .lds-spinner div:nth-child(11) {
+            transform: rotate(300deg);
+            animation-delay: -0.1s;
+        }
+
+        .lds-spinner div:nth-child(12) {
+            transform: rotate(330deg);
+            animation-delay: 0s;
+        }
+
+        @keyframes lds-spinner {
+            0% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
             }
         }
     </style>
 </head>
 <body>
-
-<!-- Navigation -->
-<nav class="navbar navbar-expand-lg navbar-light">
-    <div class="container">
-        <a class="navbar-brand" href="#">Camila's Site</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="#home">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#about">About Us</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#services">Services</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#contact">Contact Us</a>
-                </li>
-                <!-- New List Item for Test Button -->
-                <li class="nav-item">
-                    <a class="nav-link" style="color: black;font-weight: bolder;" href="https://www.esl-idiomas.com/es/test-online/test-espanol">Book Test</a>
-                </li>
-                <!-- End of New List Item for Test Button -->
-            </ul>
-        </div>
-        </div>
-        
-</nav>
-
-<!-- Banner Section -->
-<section id="home" class="banner">
-    <div class="container">
-        <h1>Welcome to Camila's Site</h1>
-        <p class="lead">Learn Spanish with a native teacher</p>
-        <a href="#services" class="btn btn-banner">Our Offerings</a>
+    <div id="loader" class="lds-spinner">
+        <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
     </div>
-</section>
 
-<!-- Services Section -->
-{% block content %}
-<section id="services">
-    <div class="container">
-        <h2 class="text-center mb-5">Our Offerings</h2>
+    {% if messages %}
+    <div class="container mt-3">
         <div class="row">
-            {% for service in services %}
-            <div class="col-md-4 mb-4">
-                <div class="card" >
-                    <img src="{{ service.image.url }}" class="card-img-top" alt="{{ service.title }}">
-                    <div class="card-body">
-                        <h5 class="card-title">{{ service.title }}</h5>
-                        <p class="card-text">{{ service.description }}</p>
-                        <p class="card-text" style="color: black;font-weight: bolder;">Price: {{ service.price }}</p>
-                        <p class="card-text" style="color: black;font-weight: bolder;">Duration: {{ service.duration }}</p>
-                        <!-- If you want to add a button, uncomment the following lines -->
-                        <!-- <button class="btn btn-outline-info book-now-btn" data-service-id="{{ service.id }}">Book Now</button> -->
+            <div class="col-md-12">
+                {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">
+                    {{ message }}
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container">
+            <a class="navbar-brand" href="#">Camila's Site</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#home">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#about">About Us</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#services">Services</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contact">Contact Us</a>
+                    </li>
+                    <!-- New List Item for Test Button -->
+                    <li class="nav-item">
+                        <a class="nav-link" style="color: black;font-weight: bolder;" href="https://www.esl-idiomas.com/es/test-online/test-espanol">Book Test</a>
+                    </li>
+                    <!-- End of New List Item for Test Button -->
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Banner Section -->
+    <section id="home" class="banner">
+        <div class="container">
+            <h1>Welcome to Camila's Site</h1>
+            <p class="lead">Learn Spanish with a native teacher</p>
+            <a href="#services" class="btn btn-banner">Our Offerings</a>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services">
+        <div class="container">
+            <h2 class="text-center mb-5">Our Offerings</h2>
+            <div class="row">
+                {% for service in services %}
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <img src="{{ service.image.url }}" class="card-img-top" alt="{{ service.title }}">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ service.title }}</h5>
+                            <p class="card-text">{{ service.description }}</p>
+                            <p class="card-text" style="font-weight: bolder;">Price: {{ service.price }}</p>
+                            <p class="card-text" style="font-weight: bolder;">Duration: {{ service.duration }}</p>
+                            <form id="paypal-form-{{ service.id }}" method="post" action="{% url 'create_payment' %}">
+                                {% csrf_token %}
+                                <input type="hidden" name="service_id" value="{{ service.id }}">
+                                <input type="hidden" name="price" value="{{ service.price }}">
+                                <input type="hidden" name="description" value="{{ service.title }}">
+                                <input type="hidden" name="currency" value="USD">
+                                <button type="button" class="btn  book-now-btn" onclick="initiatePayPal('{{ service.id }}')">Purchase</button>
+                            </form>
+                        </div>
                     </div>
                 </div>
-            </div>
-            {% endfor %}
-        </div>
-    </div>
-    
-</section>
-
-<!-- Mission Section -->
-<section id="mission">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-6">
-                <h4 style="font-weight: bolder;">Camila's</h4>
-                <!-- <img src="/media/banner.png" class="img-fluid" alt="Mission Image" style="width: 300px;height: 150px;"> -->
-            </div>
-            <div class="col-md-6">
-                <h2>Our Mission</h2>
-                <p>Teach Spanish at any level with a dynamic and interactive immersion methodology. You will learn to acquire the language in less time and effectively.</p>
+                {% endfor %}
             </div>
         </div>
-    </div>
-</section>
+    </section>
 
-<section id="about">
-    <div class="container">
-        <h2 class="text-center mb-5">About Us</h2>
-        <p>At Learn Spanish with Camila, we're dedicated to making Spanish learning accessible and enjoyable for everyone. Our platform offers a diverse range of courses designed to suit various proficiency levels and learning styles. Led by a team of experienced language instructors, we provide comprehensive lessons, interactive activities, and real-world practice to help you master Spanish effectively. We believe in fostering a supportive learning environment where students can connect, collaborate, and grow together. Whether you're a complete beginner or looking to refine your skills, our personalized approach ensures that you receive the guidance and support you need to succeed. Join our community today and take the first step towards fluency with Learn Spanish with Camila.</p>
-    </div>
-</section>
-
-<section id="contact">
-    <div class="container">
-        <h2 class="text-center mb-5">Contact Us</h2>
-        <div class="row">
-            <div class="col-md-6">
-                <form action="{% url 'save_contact' %}" method="post">
-                    {% csrf_token %}
-                    <div class="form-group">
-                        <label for="name">Name:</label>
-                        <input type="text" class="form-control" id="name" name="name" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="email">Email:</label>
-                        <input type="email" class="form-control" id="email" name="email" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="message">Message:</label>
-                        <textarea class="form-control" id="message" name="message" rows="5" required></textarea>
-                    </div>
-                    <button type="submit" class="btn btn-outline-primary">Submit</button>
-                </form>
-            </div>
-            <div class="col-md-6 mt-5 p-5">
-                <p>Feel free to get in touch with us for any questions or inquiries. We'll get back to you as soon as possible.</p>
-                <p>Email: <span style="color: rgb(51, 51, 209);">es.camilasite@gmail.com</span></p>
-                <p>Phone: <span style="color: rgb(51, 51, 209);">57 314 3375405</span></p>
+    <!-- Mission Section -->
+    <section id="mission">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h4 style="font-weight: bolder;">Camila's</h4>
+                </div>
+                <div class="col-md-6">
+                    <h2>Our Mission</h2>
+                    <p>Teach Spanish at any level with a dynamic and interactive immersion methodology. You will learn to acquire the language in less time and effectively.</p>
+                </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 
-<footer>
-    <div class="container text-center">
-        <p>&copy; 2024 Camila's Site. All rights reserved.</p>  
-    </div>
-</footer>
+    <!-- About Us Section -->
+    <section id="about">
+        <div class="container">
+            <h2 class="text-center mb-5">About Us</h2>
+            <p>At Learn Spanish with Camila, we're dedicated to making Spanish learning accessible and enjoyable for everyone. Our platform offers a diverse range of courses designed to suit various proficiency levels and learning styles. Led by a team of experienced language instructors, we provide comprehensive lessons, interactive activities, and real-world practice to help you master Spanish effectively. We believe in fostering a supportive learning environment where students can connect, collaborate, and grow together. Whether you're a complete beginner or looking to refine your skills, our personalized approach ensures that you receive the guidance and support you need to succeed. Join our community today and take the first step towards fluency with Learn Spanish with Camila.</p>
+        </div>
+    </section>
 
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<script>
-    // Function to handle form submission
-    document.addEventListener('DOMContentLoaded', function () {
-        document.querySelector('form').onsubmit = function (event) {
-            event.preventDefault(); // Prevent default form submission
-            const form = event.target; // Get the form element
-            const formData = new FormData(form); // Create FormData object
-            
-            // Send form data to server using Fetch API
+    <!-- Contact Us Section -->
+    <section id="contact">
+        <div class="container">
+            <h2 class="text-center mb-5">Contact Us</h2>
+            <div class="row">
+                <div class="col-md-6">
+                    <form action="{% url 'save_contact' %}" method="post">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="name">Name:</label>
+                            <input type="text" class="form-control" id="name" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email:</label>
+                            <input type="email" class="form-control" id="email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Message:</label>
+                            <textarea class="form-control" id="message" name="message" rows="5" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-outline-primary">Submit</button>
+                    </form>
+                </div>
+                <div class="col-md-6 mt-5 p-5">
+                    <p>Feel free to get in touch with us for any questions or inquiries. We'll get back to you as soon as possible.</p>
+                    <p>Email: <span style="color: rgb(51, 51, 209);">es.camilasite@gmail.com</span></p>
+                    <p>Phone: <span style="color: rgb(51, 51, 209);">57 314 3375405</span></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container text-center">
+            <p>&copy; 2024 Camila's Site. All rights reserved.</p>  
+        </div>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://www.paypal.com/sdk/js?client-id=AdJD6EL-C76CTvKhMtPl-s4hEw2dVBxnfdEY8UZ1mJRi9gykGqpuvy8wPOGI1yIUi5Xb5T59NelRXFzs&currency=USD"></script>
+    <script>
+        function initiatePayPal(serviceId) {
+            const form = document.getElementById('paypal-form-' + serviceId);
+            const formData = new FormData(form);
+
+            // Show loader
+            document.getElementById('loader').style.display = 'block';
+
             fetch(form.action, {
                 method: 'POST',
                 body: formData,
@@ -243,79 +348,22 @@
             })
             .then(response => response.json()) // Parse JSON response
             .then(data => {
-                // Show SweetAlert message
-                swal({
-                    title: "Success!",
-                    text: data.message,
-                    icon: "success",
-                    button: "OK",
-                })
-                .then(() => {
-                    // Reset form fields
-                    form.reset();
-                });
+                // Hide loader
+                document.getElementById('loader').style.display = 'none';
+
+                if (data.redirect_url) {
+                    window.location.href = data.redirect_url;
+                } else {
+                    console.error('Error:', data.error);
+                }
             })
             .catch(error => {
                 console.error('Error:', error);
-                // Show error message using SweetAlert
-                swal({
-                    title: "Error!",
-                    text: "An error occurred. Please try again later.",
-                    icon: "error",
-                    button: "OK",
-                });
+
+                // Hide loader in case of error
+                document.getElementById('loader').style.display = 'none';
             });
-        };
-    });
-</script>
-
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const bookNowButtons = document.querySelectorAll('.book-now-btn');
-        bookNowButtons.forEach(button => {
-            button.addEventListener('click', function (event) {
-                event.preventDefault(); // Prevent default link behavior
-                const serviceId = this.dataset.serviceId;
-                showBookingForm(serviceId);
-            });
-        });
-    });
-
-    function showBookingForm(serviceId) {
-        swal({
-            title: "Book Now",
-            content: {
-                element: "form",
-                attributes: {
-                    id: "booking-form",
-                    method: "post",
-                    action: "{% url 'save_booking' %}"
-                },
-                element: "input",
-                attributes: {
-                    id: "service_id",
-                    name: "service_id",
-                    type: "hidden",
-                    value: serviceId
-                }
-            },
-            buttons: {
-                cancel: true,
-                confirm: {
-                    text: "Submit",
-                    closeModal: false
-                }
-            },
-            closeOnClickOutside: false // Prevent closing on outside click
-        }).then((value) => {
-            if (value) {
-                document.getElementById('booking-form').submit();
-            }
-        });
-    }
-</script>
-
-{% endblock %}
-
+        }
+    </script>
 </body>
 </html>

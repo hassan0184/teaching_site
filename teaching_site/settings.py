@@ -126,3 +126,14 @@ STATIC_URL = '/static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+# _______________________ live____________________________________________-
+PAYPAL_CLIENT_ID = "AQkAYNIjPjD2f6YuKk6yBd1IJOYqC7qPTojVsZe921t3cXfKD_--3aITK231jtJ5S_ZPWhD9K0N9GJxk"
+PAYPAL_CLIENT_SECRET = "EF4K-1ev-zMaLvOmj2jjgL8myOUwsebzAvPXqWl4iW-JP5SfJpifYcEiaj65SndtXBuXXxSlSoexkj0U"
+PAYPAL_MODE = 'live'
+# _______________________ sandox__________________________________________-
+# PAYPAL_CLIENT_ID = "AdJD6EL-C76CTvKhMtPl-s4hEw2dVBxnfdEY8UZ1mJRi9gykGqpuvy8wPOGI1yIUi5Xb5T59NelRXFzs" 
+# PAYPAL_CLIENT_SECRET= "EISEwRCepjaUvi8HuuwyQVVlv81IxuiAL8bKbtjEfNMiv66XlK1_U2LzcuTJtveJmUphauHbKdHM92Ul" 
+# PAYPAL_BASE_URL="https://api.sandbox.paypal.com"
+# PAYPAL_MODE = 'sandbox'
+  
