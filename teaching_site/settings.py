@@ -137,4 +137,6 @@ PAYPAL_MODE = 'live'
 # PAYPAL_BASE_URL="https://api.sandbox.paypal.com"
 # PAYPAL_MODE = 'sandbox'
   
-SECURE_SSL_REDIRECT=True
+SECURE_SSL_REDIRECT=False
+STATIC_URL = "/static/"
+STATIC_ROOT = os.path.join(BASE_DIR, "static/")
