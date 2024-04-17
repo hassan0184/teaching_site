@@ -137,3 +137,4 @@ PAYPAL_MODE = 'live'
 # PAYPAL_BASE_URL="https://api.sandbox.paypal.com"
 # PAYPAL_MODE = 'sandbox'
   
+SECURE_SSL_REDIRECT=True
