@@ -140,3 +140,4 @@ PAYPAL_MODE = 'live'
 SECURE_SSL_REDIRECT=False
 STATIC_URL = "/static/"
 STATIC_ROOT = os.path.join(BASE_DIR, "static/")
+CSRF_TRUSTED_ORIGINS = ['*']
